@@ -21,7 +21,7 @@ const geminiProxy = () => ({
             }
 
             const apiRes = await fetch(
-              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent?key=${apiKey}`,
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-3.5:generateContent?key=${apiKey}`,
               {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
