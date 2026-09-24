@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
@@ -13,7 +13,8 @@ const geminiProxy = () => ({
         req.on('end', async () => {
           try {
             const { prompt } = JSON.parse(body);
-            const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+            const env = loadEnv('', process.cwd(), '');
+            const apiKey = env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
             
             if (!apiKey) {
               res.statusCode = 500;
@@ -42,8 +43,9 @@ const geminiProxy = () => ({
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ text }));
           } catch (e) {
+            console.error('Proxy Error:', e);
             res.statusCode = 500;
-            res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            res.end(JSON.stringify({ error: 'Internal Server Error', details: String(e) }));
           }
         });
       }
