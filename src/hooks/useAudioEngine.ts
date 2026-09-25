@@ -219,9 +219,9 @@ export function useAudioEngine(bpm: number = 120, onError?: (msg: string) => voi
     const envelope = ctx.createGain();
     const panner = ctx.createStereoPanner();
 
-    osc.type = 'sine';
+    osc.type = 'square';
     osc.frequency.value = isDownbeat ? 1200 : 900;
-    envelope.gain.setValueAtTime(1, time);
+    envelope.gain.setValueAtTime(0.5, time);
     envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
 
     panner.pan.value = -0.5;
