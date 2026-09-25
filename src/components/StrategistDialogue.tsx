@@ -66,7 +66,7 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
         ) : (
           <div className="flex flex-col justify-end min-h-full space-y-4 z-10 relative pt-10">
             <AnimatePresence initial={false}>
-              {chatHistory.map((msg, index) => {
+              {chatHistory.map((msg) => {
                 // Remove the prefix like "【Lv.1】" for display in the bubble if it exists
                 const cleanLine = msg.text.replace(/^【.*?】/, '');
                 

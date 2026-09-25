@@ -30,7 +30,7 @@ export function useGeminiStrategist() {
 
   const requestReaction = useCallback(async (
     playerTitle: string,
-    strategistName: string,
+    _strategistName: string,
     strategistLevel: number,
     persona: string,
     eventType: EventType,
@@ -86,8 +86,8 @@ ${persona}
   }, []);
 
   const requestBriefing = useCallback(async (
-    playerTitle: string,
-    strategistName: string,
+    _playerTitle: string,
+    _strategistName: string,
     currentInt: number,
     persona: string,
     rhythmOnomatopoeia: string,

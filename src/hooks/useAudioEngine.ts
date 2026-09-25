@@ -35,7 +35,7 @@ export function useAudioEngine(bpm: number = 120, onError?: (msg: string) => voi
   const [combo, setCombo] = useState(0);
   const [hp, setHp] = useState(100);
   const [isFrozen, setIsFrozen] = useState(false);
-  const [godlikeCount, setGodlikeCount] = useState(0);
+  const [, setGodlikeCount] = useState(0);
   const [showGodlikeCutin, setShowGodlikeCutin] = useState(false);
 
   // Phase 3 states

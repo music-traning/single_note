@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useGameState, STRATEGIST_DATA, STAGE_DATA, patternToString, patternToPromptString, getDisclosedInfo } from '../hooks/useGameState';
-import type { StrategistId, StageId, NoteDef } from '../hooks/useGameState';
+import { useGameState, STRATEGIST_DATA, STAGE_DATA, getDisclosedInfo } from '../hooks/useGameState';
+import type { NoteDef } from '../hooks/useGameState';
 import { generateRhythmOnomatopoeia } from '../utils/rhythmUtils';
 import { StageSelectMap } from './StageSelectMap';
 
@@ -28,7 +28,7 @@ type CampProps = {
 };
 
 export const Camp: React.FC<CampProps> = ({ 
-  onStartBattle, onStartSimulation, gameState, previewPattern, requestBriefing, requestIdleChat, currentLine, isLoadingGemini, onOpenStrategistSelect, onOpenStageSelect,
+  onStartBattle, onStartSimulation, gameState, requestBriefing, requestIdleChat, currentLine, isLoadingGemini, onOpenStrategistSelect,
   isMicConnected, onStartListening, isCalibrating, onCalibrate, transientThreshold, setTransientThreshold, calibrationOffset,
   onResetCalibration, onSetManualCalibration
 }) => {
@@ -39,7 +39,6 @@ export const Camp: React.FC<CampProps> = ({
     activeStrategist, 
     selectedStage,
     playerTitle, 
-    selectStrategist,
     selectTargetStage
   } = gameState;
   

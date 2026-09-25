@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAudioEngine } from './hooks/useAudioEngine';
-import type { GameMode, Debuff } from './hooks/useAudioEngine';
+import type { GameMode } from './hooks/useAudioEngine';
 import { useGeminiStrategist } from './hooks/useGeminiStrategist';
 import { Metronome } from './components/Metronome';
 import { StrategistDialogue } from './components/StrategistDialogue';
