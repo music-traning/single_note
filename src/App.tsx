@@ -25,6 +25,8 @@ function App() {
   
   const [audioErrorMsg, setAudioErrorMsg] = useState<string | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<'save' | 'load' | null>(null);
+  const [targetSlotIndex, setTargetSlotIndex] = useState<number | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showNgpConfirm, setShowNgpConfirm] = useState(false);
   const [showCalibrationPrompt, setShowCalibrationPrompt] = useState(false);
@@ -466,15 +468,8 @@ function App() {
               <div className="flex space-x-2">
                 <button 
                   onClick={() => {
-                    saveManager.saveToSlot(i + 1, {
-                      name: `スロット${i + 1}`,
-                      totalVictories: gameState.totalVictories,
-                      clearedStages: gameState.clearedStages,
-                      strategists: gameState.strategists,
-                      activeStrategist: gameState.activeStrategist,
-                      selectedStage: gameState.selectedStage,
-                      difficulty: gameState.difficulty
-                    });
+                    setTargetSlotIndex(i + 1);
+                    setConfirmAction('save');
                   }}
                   className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded"
                 >
@@ -483,8 +478,8 @@ function App() {
                 <button 
                   onClick={() => {
                     if (slot) {
-                      gameState.loadState(slot);
-                      setShowSaveModal(false);
+                      setTargetSlotIndex(i + 1);
+                      setConfirmAction('load');
                     }
                   }}
                   disabled={!slot}
@@ -508,6 +503,53 @@ function App() {
               className="w-full py-3 bg-red-900/50 hover:bg-red-600 border border-red-700 text-white font-bold rounded transition-colors"
             >
               ⚠️ 現在のデータを初期化 (セーブスロットは維持)
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Save/Load Confirm Modal */}
+      <Modal isOpen={confirmAction !== null} onClose={() => setConfirmAction(null)} title={confirmAction === 'save' ? '記録の確認' : '復元の確認'}>
+        <div className="space-y-4">
+          <div className="text-sm text-slate-300 font-bold leading-relaxed bg-slate-900/40 p-4 rounded border border-slate-700/50">
+            {confirmAction === 'save' 
+              ? `スロット ${targetSlotIndex} に現在の進行状況を記録（上書き）します。よろしいですか？`
+              : `スロット ${targetSlotIndex} の記録からデータを復元します。現在の進行状況は破棄されますがよろしいですか？`
+            }
+          </div>
+          <div className="flex space-x-4 pt-4">
+            <button 
+              onClick={() => setConfirmAction(null)}
+              className="flex-1 py-3 bg-slate-700 hover:bg-slate-600 font-bold text-white rounded transition-colors"
+            >
+              やめる
+            </button>
+            <button 
+              onClick={() => {
+                if (targetSlotIndex !== null) {
+                  if (confirmAction === 'save') {
+                    saveManager.saveToSlot(targetSlotIndex, {
+                      name: `スロット ${targetSlotIndex}`,
+                      totalVictories: gameState.totalVictories,
+                      clearedStages: gameState.clearedStages,
+                      strategists: gameState.strategists,
+                      activeStrategist: gameState.activeStrategist,
+                      selectedStage: gameState.selectedStage,
+                      difficulty: gameState.difficulty
+                    });
+                  } else if (confirmAction === 'load') {
+                    const slot = saveManager.saveSlots[targetSlotIndex - 1];
+                    if (slot) {
+                      gameState.loadState(slot);
+                    }
+                  }
+                }
+                setConfirmAction(null);
+                setShowSaveModal(false);
+              }}
+              className="flex-1 py-3 bg-red-600 hover:bg-red-500 font-bold text-white rounded transition-colors"
+            >
+              実行する
             </button>
           </div>
         </div>
