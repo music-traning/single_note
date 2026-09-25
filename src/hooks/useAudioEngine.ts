@@ -505,7 +505,7 @@ export function useAudioEngine(bpm: number = 120, onError?: (msg: string) => voi
   }, [initAudio, scheduler, stopMetronome, resetBattle]);
 
   const handleTransient = useCallback((hitTime: number) => {
-    if (!audioCtxRef.current || targetsRef.current.length === 0 || isFrozenRef.current) return;
+    if (!audioCtxRef.current || targetsRef.current.length === 0) return;
     
     // キャリブレーション中ではなく、かつカウントダウン中（リードイン中）は入力を完全に無視する
     if (!isCalibratingRef.current && countdownRef.current > 0) {
