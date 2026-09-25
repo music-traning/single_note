@@ -675,6 +675,16 @@ export function useAudioEngine(bpm: number = 120, onError?: (msg: string) => voi
     startMetronome();
   }, [startMetronome, stopMetronome]);
 
+  const resetCalibration = useCallback(() => {
+    setCalibrationOffset(0);
+    localStorage.setItem('sys_calibration', '0');
+  }, []);
+
+  const setManualCalibration = useCallback((offset: number) => {
+    setCalibrationOffset(offset);
+    localStorage.setItem('sys_calibration', offset.toString());
+  }, []);
+
   return {
     isPlaying,
     isMicConnected,
@@ -701,6 +711,8 @@ export function useAudioEngine(bpm: number = 120, onError?: (msg: string) => voi
     resetBattle,
     startListening,
     startCalibration,
+    resetCalibration,
+    setManualCalibration,
     previewPattern
   };
 }
