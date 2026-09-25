@@ -25,7 +25,7 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
   }, [chatHistory, isLoading]);
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-slate-900 rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
+    <div className="flex flex-col h-[50vh] md:h-full md:max-h-[calc(100vh-6rem)] min-h-0 bg-slate-900 rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
       {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700 p-4 flex justify-between items-center relative overflow-hidden flex-shrink-0">
         <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:20px_20px] opacity-20"></div>
