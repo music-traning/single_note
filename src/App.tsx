@@ -55,6 +55,8 @@ function App() {
     resetBattle,
     startListening,
     startCalibration,
+    resetCalibration,
+    setManualCalibration,
     previewPattern
   } = useAudioEngine(120, setAudioErrorMsg);
 
@@ -227,6 +229,7 @@ function App() {
             gameState={gameState} 
             previewPattern={previewPattern}
             requestBriefing={requestBriefing}
+            requestIdleChat={requestIdleChat}
             currentLine={currentLine}
             isLoadingGemini={isLoading}
             isMicConnected={isMicConnected}
@@ -236,6 +239,8 @@ function App() {
             transientThreshold={transientThreshold}
             setTransientThreshold={setTransientThreshold}
             calibrationOffset={calibrationOffset}
+            onResetCalibration={resetCalibration}
+            onSetManualCalibration={setManualCalibration}
             onStartBattle={() => {
               if (!localStorage.getItem('sys_calibration')) {
                 setShowCalibrationPrompt(true);
@@ -306,6 +311,8 @@ function App() {
               onStop={stopMetronome}
               onStartListening={startListening}
               onCalibrate={startCalibration}
+              onResetCalibration={resetCalibration}
+              onSetManualCalibration={setManualCalibration}
             />
             
             <div className="flex flex-col h-full">
@@ -452,6 +459,7 @@ function App() {
                 <button 
                   onClick={() => {
                     saveManager.saveToSlot(i + 1, {
+                      name: `スロット${i + 1}`,
                       totalVictories: gameState.totalVictories,
                       clearedStages: gameState.clearedStages,
                       strategists: gameState.strategists,

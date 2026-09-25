@@ -28,6 +28,8 @@ type MetronomeProps = {
   onStop: () => void;
   onStartListening: () => void;
   onCalibrate: () => void;
+  onResetCalibration: () => void;
+  onSetManualCalibration: (offset: number) => void;
 };
 
 export const Metronome: React.FC<MetronomeProps> = ({
@@ -54,7 +56,9 @@ export const Metronome: React.FC<MetronomeProps> = ({
   onStart,
   onStop,
   onStartListening,
-  onCalibrate
+  onCalibrate,
+  onResetCalibration,
+  onSetManualCalibration
 }) => {
   
   useEffect(() => {
@@ -344,9 +348,32 @@ export const Metronome: React.FC<MetronomeProps> = ({
           />
         </div>
 
-        <div className="text-sm text-slate-400 mb-4 flex justify-between w-full px-4">
+        <div className="text-sm text-slate-400 mb-2 flex justify-between w-full px-4">
           <span>システムレイテンシ (Offset):</span>
-          <span className="font-mono text-indigo-400 font-bold">{calibrationOffset.toFixed(2)} ms</span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-indigo-400 font-bold">{calibrationOffset.toFixed(1)} ms</span>
+            <button
+              onClick={onResetCalibration}
+              className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 px-2 py-0.5 rounded"
+              title="0msにリセット"
+            >🔄 リセット</button>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 mb-4 px-4 w-full">
+          <button onClick={() => onSetManualCalibration(calibrationOffset - 5)}
+            className="text-xs bg-slate-700 hover:bg-indigo-700 text-white px-2 py-1 rounded font-mono">－5</button>
+          <button onClick={() => onSetManualCalibration(calibrationOffset - 1)}
+            className="text-xs bg-slate-700 hover:bg-indigo-700 text-white px-2 py-1 rounded font-mono">－1</button>
+          <input
+            type="number"
+            value={Math.round(calibrationOffset)}
+            onChange={(e) => onSetManualCalibration(Number(e.target.value))}
+            className="flex-1 text-center text-xs bg-slate-900 border border-slate-600 text-indigo-300 rounded px-1 py-1 font-mono"
+          />
+          <button onClick={() => onSetManualCalibration(calibrationOffset + 1)}
+            className="text-xs bg-slate-700 hover:bg-indigo-700 text-white px-2 py-1 rounded font-mono">＋1</button>
+          <button onClick={() => onSetManualCalibration(calibrationOffset + 5)}
+            className="text-xs bg-slate-700 hover:bg-indigo-700 text-white px-2 py-1 rounded font-mono">＋5</button>
         </div>
 
         <div className="h-32 flex items-center justify-center mb-6 w-full bg-slate-900 rounded-lg inset-shadow relative overflow-hidden">

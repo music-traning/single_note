@@ -23,11 +23,14 @@ type CampProps = {
   transientThreshold: number;
   setTransientThreshold: (val: number) => void;
   calibrationOffset: number;
+  onResetCalibration: () => void;
+  onSetManualCalibration: (offset: number) => void;
 };
 
 export const Camp: React.FC<CampProps> = ({ 
   onStartBattle, onStartSimulation, gameState, previewPattern, requestBriefing, requestIdleChat, currentLine, isLoadingGemini, onOpenStrategistSelect, onOpenStageSelect,
-  isMicConnected, onStartListening, isCalibrating, onCalibrate, transientThreshold, setTransientThreshold, calibrationOffset
+  isMicConnected, onStartListening, isCalibrating, onCalibrate, transientThreshold, setTransientThreshold, calibrationOffset,
+  onResetCalibration, onSetManualCalibration
 }) => {
   const { 
     totalVictories, 
@@ -158,9 +161,42 @@ export const Camp: React.FC<CampProps> = ({
                 className="w-full accent-indigo-500 h-1"
               />
             </div>
-            <div className="flex justify-between items-center text-[10px] text-slate-400">
-              <span>システムレイテンシ (Offset)</span>
-              <span className="font-mono text-indigo-400 font-bold">{calibrationOffset.toFixed(2)} ms</span>
+            <div className="mt-2 space-y-1">
+              <div className="flex justify-between items-center text-[10px] text-slate-400">
+                <span>システムレイテンシ (Offset)</span>
+                <div className="flex items-center gap-1">
+                  <span className="font-mono text-indigo-400 font-bold">{calibrationOffset.toFixed(1)} ms</span>
+                  <button
+                    onClick={onResetCalibration}
+                    className="text-[9px] bg-slate-700 hover:bg-slate-600 text-slate-300 px-1 py-0.5 rounded"
+                    title="0msにリセット"
+                  >🔄 リセット</button>
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => onSetManualCalibration(calibrationOffset - 5)}
+                  className="text-[10px] bg-slate-700 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-mono"
+                >－5</button>
+                <button
+                  onClick={() => onSetManualCalibration(calibrationOffset - 1)}
+                  className="text-[10px] bg-slate-700 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-mono"
+                >－1</button>
+                <input
+                  type="number"
+                  value={Math.round(calibrationOffset)}
+                  onChange={(e) => onSetManualCalibration(Number(e.target.value))}
+                  className="flex-1 text-center text-[10px] bg-slate-900 border border-slate-600 text-indigo-300 rounded px-1 py-0.5 font-mono w-12"
+                />
+                <button
+                  onClick={() => onSetManualCalibration(calibrationOffset + 1)}
+                  className="text-[10px] bg-slate-700 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-mono"
+                >＋1</button>
+                <button
+                  onClick={() => onSetManualCalibration(calibrationOffset + 5)}
+                  className="text-[10px] bg-slate-700 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-mono"
+                >＋5</button>
+              </div>
             </div>
           </div>
         </div>
