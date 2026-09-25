@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import type { StrategistId, StageId } from '../data/strategists';
 import { STRATEGIST_DATA } from '../data/strategists';
@@ -159,11 +159,11 @@ export function useGameState() {
     active.exp += stage.expReward;
     active.level = Math.floor(active.exp / 100) + 1;
     
-    let unlockedNew = false;
+    let unlockedId: StrategistId | null = null;
     // Unlock defeated boss
-    if (!nextStrats[stage.unlockId].isUnlocked) {
+    if (stage.unlockId && !nextStrats[stage.unlockId].isUnlocked) {
       nextStrats[stage.unlockId].isUnlocked = true;
-      unlockedNew = true;
+      unlockedId = stage.unlockId;
     }
 
     setStrategists(nextStrats);
@@ -184,7 +184,7 @@ export function useGameState() {
       }
     }
     
-    return { unlockedNew };
+    return { unlockedId };
   }, [totalVictories, strategists, activeStrategist, clearedStages]);
 
   const unlockStrategist = useCallback((id: StrategistId): boolean => {

@@ -91,11 +91,19 @@ function App() {
       
       if (currentStage) {
         const result = gameState.clearStage(currentStage.id);
-        let unlockedName = result.unlockedNew ? currentStage.enemyName : null;
+        
+        let unlockedName: string | null = null;
+        
+        // Dummy/enemy strategists are not real playable characters
+        const isPlayable = (id: string) => !['dummy', 'yellow_turban', 'zhang_fei', 'lu_bu'].includes(id);
+
+        if (result.unlockedId && isPlayable(result.unlockedId)) {
+          unlockedName = STRATEGIST_DATA[result.unlockedId as keyof typeof STRATEGIST_DATA]?.name || result.unlockedId;
+        }
         
         const processUnlock = (ids: string[]) => {
           for (const id of ids) {
-            if (gameState.unlockStrategist(id as any)) {
+            if (gameState.unlockStrategist(id as any) && isPlayable(id)) {
               unlockedName = STRATEGIST_DATA[id as keyof typeof STRATEGIST_DATA]?.name || id;
             }
           }
