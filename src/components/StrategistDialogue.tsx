@@ -17,20 +17,15 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
   chatHistory,
   isLoading
 }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new messages arrive or loading state changes
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory, isLoading]);
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 rounded-xl shadow-2xl border border-slate-700 overflow-hidden min-h-[400px]">
+    <div className="flex flex-col h-56 max-h-56 bg-slate-900 rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
       {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700 p-4 flex justify-between items-center relative overflow-hidden flex-shrink-0">
         <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:20px_20px] opacity-20"></div>
@@ -40,7 +35,7 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
           </div>
           <div>
             <h2 className="text-lg font-bold text-slate-100 leading-tight tracking-wider">{strategistName}</h2>
-            <div className="text-xs text-indigo-400 font-mono">軍師 (絆 Lv.{strategistLevel})</div>
+            <div className="text-xs text-indigo-400 font-mono">軍師 (絆Lv.{strategistLevel})</div>
           </div>
         </div>
         <div className="text-right relative z-10">
@@ -51,7 +46,6 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
 
       {/* Main Dialogue Area (Scrollable) */}
       <div 
-        ref={scrollRef}
         className="flex-1 p-4 overflow-y-auto custom-scrollbar relative flex flex-col bg-gradient-to-b from-slate-900 to-slate-950 space-y-4"
       >
         {/* Background Decorative element */}
@@ -107,6 +101,9 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
                 </motion.div>
               )}
             </AnimatePresence>
+            
+            {/* Auto-scroll target */}
+            <div ref={messagesEndRef} />
           </div>
         )}
       </div>
