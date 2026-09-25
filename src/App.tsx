@@ -612,6 +612,12 @@ function App() {
         </div>
       </Modal>
 
+      {/* Footer */}
+      <footer className="w-full text-center py-4 mt-auto text-sm text-slate-500">
+        <a href="https://note.com/jazzy_begin" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
+          ©2026 buro
+        </a>
+      </footer>
     </div>
   );
 }
