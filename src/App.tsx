@@ -325,7 +325,7 @@ function App() {
               onSetManualCalibration={setManualCalibration}
             />
             
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full min-h-0">
               {gameMode !== 'training' && (
                 <StrategistDialogue
                   strategistName={activeStrategistName}

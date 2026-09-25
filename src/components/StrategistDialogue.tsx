@@ -46,7 +46,7 @@ export const StrategistDialogue: React.FC<StrategistDialogueProps> = ({
 
       {/* Main Dialogue Area (Scrollable) */}
       <div 
-        className="flex-1 p-4 overflow-y-auto custom-scrollbar relative flex flex-col bg-gradient-to-b from-slate-900 to-slate-950 space-y-4"
+        className="flex-1 min-h-0 p-4 overflow-y-auto custom-scrollbar relative flex flex-col bg-gradient-to-b from-slate-900 to-slate-950 space-y-4"
       >
         {/* Background Decorative element */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none z-0">
